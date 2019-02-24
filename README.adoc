@@ -1,0 +1,96 @@
+= Ghumakkad Technical Documentation
+Prashant C Chaturvedi <prashant.chaturvedi@hcentive.com>
+v{revnumber}, {revdate}
+
+:description: 'Documentation on document project and how to use it'
+
+toc::[]
+
+include::_customization/copyright.adoc[]
+
+== icon:info-circle[] About this project
+
+[quote]
+Even the most brilliant software is useless without good documentation.
+If the users fail, so does the project.
+
+This module has all the documentation related to Ghumakkad project.
+All the documents are written in `asciidoc` markup language.
+It applies a custom theme, when generating documentation in desired output format e.g. pdf.
+http://asciidoctor.org/docs/render-documents/#selecting-an-output-format[Other output formats] e.g. html,odf,latex,epub are also supported.
+
+=== icon:question[] What is AsciiDoc?
+1. http://asciidoctor.org/docs/what-is-asciidoc/#what-is-asciidoc[AsciiDoc] is a mature, plain-text writing format for authoring notes, articles, documentation, books, ebooks, web pages, slide decks, blog posts, man pages and more.
+2. It can be used to as a text processor and toolchain for translating AsciiDoc documents into various formats (called backends), including HTML, DocBook, PDF and ePub. +
+3. AsciiDoc works because:
+* It’s readable markup language.
+* It’s concise
+* It’s comprehensive
+* It’s extensible
+* It produces beautiful output (HTML, DocBook, PDF, ePub and many more)
+* It only requires a text editor to read or write.
+
+=== icon:table[] How is this project organized?
+
+Everything resides in `document` folder of the project.
+
+* `<project-root>/document` is home folder of documentation. Let's call it `DOCUMENT_HOME`.
+* `document` __documentation root__
+** -> `_customization` __contains theme and style related information__
+** -> `README.adoc` __this file__
+** -> `release-xx` __release specific documentation__
+
+=== icon:tasks[] The documentation process
+
+* This is a maven project. With the help of `org.asciidoctor:asciidoctor-maven-plugin`, we are using java version of `asciidoctor` processor to render output.
+* Files containing documentation should have `.adoc` extension. These files are processed by default.
+* This `pom.xml` also contains configuration attributes for the `asciidoctorj-*` processors, which controls the rendering of documents.
+
+
+=== icon:puzzle-piece[] Why use asciidoc?
+1. Integrates with version control since its plain text
+2. Support for code snippets from you actual code.
+No need to update document when code/properties change.
+Just commit the code the documentation is itself updated.
+3. No need to use any proprietary software, everything is open source.
+4. No formatting issues when opened in different editors.
+5. Convertible to many formats. Word docs designed for print.
+This supports about web and other formats.
+A complete documentation website can be generated with just one command.
+6. With this you have separation of content from styling.
+You don't need to worry about layout, it'll later be compiled after applying style to different formats.
+7. It has support for many structural features for documents, books, articles, etc.
+8. Commercially licensed software like Microsoft Office is developed by a single vendor—sales help fund product-testing and development, marketing and sales, and salaries and shareholder dividends.
+In contrast, open source software is developed collaboratively, often by volunteers, and distributed freely to allow anyone to use, redistribute, adapt, or improve the code free of charge.
+
+
+=== icon:pencil[] How to write in asciidoc?
+
+* This is a https://powerman.name/doc/asciidoc[quick reference] (aka cheatsheet) for asciidoc syntax.
+
+* This is the link to http://asciidoctor.org/docs/user-manual/[asciidoc user manual] which contains all the information related to asciidoc syntax.
+
+* These are http://asciidoctor.org/docs/asciidoc-recommended-practices/[few recommended practices], which we are following.
+
+* These are various ways to http://asciidoctor.org/docs/editing-asciidoc-with-live-preview/[write in asciidoc format with live preview].
+
+* List of http://fontawesome.io/cheatsheet/[font-awesome icons], to select from.
+
+=== icon:external-link[] Helpful links related to AsciiDoc
+
+* Please go through http://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc Writer’s Guide] for learning how to write in AsciiDoc. +
+* Here is the http://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[Cheatsheet for quick reference]. +
+* It is more helpful to write in https://asciidoclive.com/[asciidoc with live preview].
+
+
+=== icon:external-link-square[] Other references
+
+1. http://asciidoctor.org/news/2013/01/30/asciidoc-returns-to-github/[Most of the Git project documentation is written in AsciiDoc.] +
+2. http://chimera.labs.oreilly.com/books/1230000000065/ch04.html[Some of O'Reilly Media's books and e-books are authored using AsciiDoc mark-up]
+3. http://asciidoctor.org/docs/user-manual/#compared-to-markdown[Asciidoc compared with markdown]
+4. http://jwork.org/rtextdoc/
+
+=== icon:code[] pom.xml
+
+[source, xml]
+include::pom.xml[]

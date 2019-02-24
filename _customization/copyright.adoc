@@ -1,0 +1,37 @@
+<<<
+
+[colophon]
+== Copyright Information
+
+© 2014 by Ghumakkad, Inc. All rights reserved.
+
+This document is the copyrighted property of Ghumakkad, Inc.
+It should not be duplicated, used, or disclosed in whole or in part for any purpose other than to evaluate Ghumakkad products or services.
+This document contains confidential and proprietary information specific to hCentive, Inc.
+
+Products named herein may be trademarks of their respective manufacturers and are hereby recognized.
+Trademarked names are used editorially, to the benefit of the trademark owner, with no intent to infringe on the trademark.
+
+*Corporate Headquarters*
+
+Ghumakkad, Inc.
+
+302, Chanchi Kala, Kone
+
+Sonebhadra, Uttar Pradesh 231226
+
+
+
+*Contact Us*
+
+Phone:		xxx-xxx-xxxx
+
+Sales:		sales@ghumakkad.com
+
+Support:	media@ghumakkad.com
+
+Partnerships: 	partnerships@ghumakkad.com
+
+http://www.ghumakkad.com
+
+<<<

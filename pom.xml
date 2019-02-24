@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ghumakkad</artifactId>
+        <groupId>org.ghumakkad</groupId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.ghumakkad.document</groupId>
+    <artifactId>documentation</artifactId>
+    <packaging>pom</packaging>
+    <name>Documentation</name>
+    <description>Generation of documentation in HTML and PDF from asciidoc format</description>
+    <properties>
+        <asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
+        <asciidoctorj.pdf.version>1.5.0-alpha.11</asciidoctorj.pdf.version>
+        <asciidoctorj.version>1.5.4.1</asciidoctorj.version>
+        <asciidoctorj.diagram.version>1.5.4</asciidoctorj.diagram.version>
+        <asciidoctorj.screenshot.version>0.1.1</asciidoctorj.screenshot.version>
+        <!-- v 1.7.21 required to use rouge highlighter -->
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+        <jruby.version>9.0.5.0</jruby.version>
+        <rubygems.prawn.version>2.0.2</rubygems.prawn.version>
+        <customization>${basedir}/_customization</customization>
+    </properties>
+    <repositories>
+        <repository>
+            <id>rubygems-proxy-releases</id>
+            <name>RubyGems.org Proxy (Releases)</name>
+            <url>http://rubygems-proxy.torquebox.org/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven2</id>
+            <url>http://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>bintray</id>
+            <url>http://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>prawn</artifactId>
+            <version>${rubygems.prawn.version}</version>
+            <type>gem</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <defaultGoal>process-resources</defaultGoal>
+        <plugins>
+
+            <plugin>
+                <groupId>de.saumya.mojo</groupId>
+                <artifactId>gem-maven-plugin</artifactId>
+                <version>1.0.10</version>
+                <configuration>
+                    <!-- align JRuby version with AsciidoctorJ to avoid redundant downloading -->
+                    <jrubyVersion>${jruby.version}</jrubyVersion>
+                    <gemHome>${project.build.directory}/gems</gemHome>
+                    <gemPath>${project.build.directory}/gems</gemPath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>initialize</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor.maven.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-pdf</artifactId>
+                        <version>${asciidoctorj.pdf.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-diagram</artifactId>
+                        <version>${asciidoctorj.diagram.version}</version>
+                    </dependency>
+                    <!--AsciidoctorJ extension for taking screenshots as part of converting the AsciiDoc file to its output.-->
+                    <!--https://github.com/sclassen/asciidoctorj-screenshot-->
+                    <!--<dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-screenshot</artifactId>
+                        <version>${asciidoctorj.screenshot.version}</version>
+                    </dependency>-->
+                    <!-- Comment this section to use the default jruby artifact provided by the plugin -->
+                    <dependency>
+                        <groupId>org.jruby</groupId>
+                        <artifactId>jruby-complete</artifactId>
+                        <version>${jruby.version}</version>
+                    </dependency>
+                    <!-- Comment this section to use the default AsciidoctorJ artifact provided by the plugin -->
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj</artifactId>
+                        <version>${asciidoctorj.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <sourceDirectory>${basedir}</sourceDirectory>
+                    <requires>
+                        <require>asciidoctor-diagram</require>
+                        <!--<require>asciidoctor-screenshot</require>-->
+                    </requires>
+                    <sourceDocumentExtensions>
+                                <sourceDocumentExtension>adoc</sourceDocumentExtension>
+                    </sourceDocumentExtensions>
+                    <!-- Attributes common to all output formats -->
+                    <attributes>
+                        <!-- Example below shows how to specify in this pom instead of System's PATH, the location of dot command of Graphviz, required by PlantUML libraries -->
+                        <!-- Windows:
+                            <graphvizdot>C:\Program Files (x86)\Graphviz2.38\bin\dot.exe</graphvizdot>
+                        -->
+                        <!-- *nix :
+                            <graphvizdot>/usr/local/bin/dot</graphvizdot>
+                        -->
+                        <sourcedir>${basedir}/..</sourcedir>
+                        <project-version>${project.version}</project-version>
+                        <build-number>${buildNumber}</build-number>
+                        <gemPath>${project.build.directory}/gems-provided</gemPath>
+                        <icons>font</icons>
+                        <experimental/>
+                        <pagenums/>
+                        <sectnums/>
+                        <toc/>
+                        <idprefix/>
+                        <idseparator>-</idseparator>
+                        <reproducible/>
+                        <stem/><!--To activate equation and formula support-->
+                        <listing-caption>Listing</listing-caption>
+                        <toclevels>4</toclevels>
+                        <imagesdir>${customization}/images</imagesdir>
+                        <commandkey>&#8984;</commandkey>
+                        <revnumber>${version.product}</revnumber>
+                        <revdate>${maven.build.timestamp}</revdate>
+                        <organization>${project.organization.name}</organization>
+                        <chapter-label> </chapter-label>
+                        <allow-uri-read/>
+                    </attributes>
+                    <preserveDirectories>false</preserveDirectories>
+                    <sourcemap>true</sourcemap>
+                </configuration>
+                <executions>
+                	 <execution>
+                        <id>asciidoc-to-html</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html5</backend>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <attributes>
+                                <docinfodir>${customization}</docinfodir>
+                                <sectanchors>true</sectanchors>
+                                <docinfo1>true</docinfo1>
+                            </attributes>
+                        </configuration>
+                    </execution> 
+                    <execution>
+                        <id>generate-pdf-doc</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <doctype>book</doctype>
+                            <backend>pdf</backend>
+                            <sourceHighlighter>rouge</sourceHighlighter>
+                            <attributes>
+                                <pdf-stylesdir>${customization}/theme</pdf-stylesdir>
+                                <pdf-style>ghumakkad</pdf-style>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.4</version>
+                <dependencies>
+                    <dependency><!-- add Asciidoctor Doxia Parser Module -->
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-maven-plugin</artifactId>
+                        <version>1.5.6</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+</project>
