@@ -1,0 +1,54 @@
+buildscript {
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.6.0'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.18'
+        classpath 'org.asciidoctor:asciidoctorj-diagram:1.5.18'
+         classpath 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.9'
+        classpath 'org.jruby:jruby-complete:9.2.7.0'
+    }
+}
+plugins {
+    id 'org.asciidoctor.convert' version '2.0.0'
+}
+
+apply plugin: 'java'
+asciidoctorj {
+    version = '2.0.0'
+}
+asciidoctor {
+    backends 'pdf', 'epub3'
+    requires = ['asciidoctor-diagram']
+    options doctype: 'book', ruby: 'erubis', sourceHighlighter: 'coderay'
+    outputDir = file('build/docs')
+    attributes \
+        'sourcedir': project.sourceSets.main.java.srcDirs[0],
+        'pdf-style': 'ghumakkad',
+        'pdf-stylesdir': '../../theme',
+        'front-cover-image': '../../theme/logo.png',
+        'source-highlighter': 'coderay',
+        toc                 : '',
+        toclevels           : 4,
+        idprefix            : '',
+        idseparator         : '-',
+        reproducible        : '',
+        icons               : 'font',
+        pagenums            : '',
+        sectnums            : '',
+        'generate-pdf'      : '',
+        'project-version'   : project.properties["version"],
+        date                : getDate(),
+        experimental        : '',
+        stem                : '',
+        'listing-caption'   : 'Listing',
+        commandkey          : '&#8984;',
+        organization        : project.properties["organization"],
+        'chapter-label'     : '',
+        'allow-uri-read'    : ''
+}
+defaultTasks 'asciidoctor'
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
+}

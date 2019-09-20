@@ -1,5 +1,8 @@
 _site/
+.gradle/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
 target/
+build/
+node_modules/

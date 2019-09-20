@@ -1,0 +1,6 @@
+= Documentation
+Prashant C Chaturvedi <prashant.chaturvedi@hcentive.com>
+
+:icons: font
+
+include::partial$_documentation.adoc[]

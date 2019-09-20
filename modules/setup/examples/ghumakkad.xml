@@ -1,0 +1,9 @@
+<Context docBase="/Users/pccofvns/workspace/ghumakkad/applications/ghumakkad-webapp/target/ghumakkad-webapp-0.0.1-SNAPSHOT">
+	<Environment name="ghumakkad_config_path" override="false" type="java.lang.String" value="/Library/Tomcat/conf/Catalina/localhost/ghumakkad"></Environment>
+	<Environment name="spring.profiles.active" override="false" type="java.lang.String" value="product-default"></Environment> 
+	<Resources cachingAllowed="true" cacheMaxSize="100000" />
+	 <Resource name="jdbc/ghumakkadDS" auth="Container" 
+		type="javax.sql.DataSource" maxActive="25" maxIdle="5" maxWait="10000"
+		username="pccofvns" password="pccofvns" driverClassName="oracle.jdbc.driver.OracleDriver"
+		url="jdbc:oracle:thin:@localhost:xe" validationQuery="Select 1 from dual" /> 
+</Context>

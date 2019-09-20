@@ -96,7 +96,7 @@ heading:
 title_page:
   align: right
   logo:
-    image: "../images/logo.png"
+    image: "logo.png"
     top: 10%
   title:
     top: 55%

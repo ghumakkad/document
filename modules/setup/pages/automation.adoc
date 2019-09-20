@@ -1,0 +1,6 @@
+= Automation
+Prashant C Chaturvedi <prashant.chaturvedi@hcentive.com>
+
+:icons: font
+
+include::partial$_automation.adoc[]

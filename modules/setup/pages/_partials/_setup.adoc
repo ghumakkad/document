@@ -1,0 +1,113 @@
+:PROJECT_HOME: ~/workspace/ghumakkad
+Guide to set up environment for `ghumakkad` project for development. Assuming all paths
+relative to checked out `ghumakkad` project folder in your file-system. For any problems
+which may occur, see the <<Troubleshooting>> section.
+
+== System requirements
+
+1. Ensure that you have JDK installed, min JDK version is 11
+2. Apache Tomcat 9 or latest
+3. Apache maven ver 3.6 or latest `/bin` set in your PATH user variable
+4. Eclipse 4.10  with `m2e` and `tomcat` eclipse plugin. If you
+have Eclipse JEE version, no need to separately install m2e plugin.
+5. Oracle DB, SQL Developer installed
+
+== Steps to Execute
+
+=== icon:hdd-o[] Create base database and execute db scripts
+We've all the db scripts and patches in folder `{PROJECT_HOME}/database`.
+To start with goto folder `{PROJECT_HOME}/database/src/main/resources/db/base`.
+Run `base.sql` script as below.
+
+[source,shell, subs=attributes+]
+$ cd {PROJECT_HOME}/database/src/main/resources/db/base
+$ sqlplus
+
+[source,SQL, subs=attributes+]
+/** username trunk and password trunk in this case**/
+@base;
+
+==== Running DB migrations (This section may change in future)
+
+NOTE: DB migration scripts are in folder `{PROJECT_HOME}/database/src/main/resources/db/migration`.
+
+We are running DB migrations using `flywaydb` maven plugin. Before running the DB migration
+we need to make few changes in configuration `flywaydb` plugin.
+Open `{PROJECT_HOME}\database\flyway.properties` and change the configuration as per you need.
+
+[source, properties]
+.agent.xml
+----
+ifdef::setupdir[]
+include::{setupdir}/flyway.properties[]
+endif::[]
+ifndef::setupdir[]
+include::example$flyway.properties[]
+endif::[]
+----
+
+After that run the migrations as below:
+
+[source,shell, subs=attributes+]
+$ cd {PROJECT_HOME}/database
+$ mvn flyway:migrate
+
+
+=== icon:refresh[] Building Application
+Goto `{PROJECT_HOME}` and run `mvn clean install -DskipTests=true -T 2` there.
+It'll take some time and compile all the code and build binaries.
+
+=== icon:code[] IDE (Eclipse) setup
+
+* Go to `Eclipse->Preferences` and find `Maven` inside preferences and point the
+you downloaded maven location and configure eclipse to use `settings.xml` from
+your maven download location.
+* If needed, In you maven download location find `settings.xml` from it's `conf`
+directory and provide it the new location of maven repository.
+
+* Import all the projects as `Existing Maven Projects` using Eclipse import
+project utility. It may take a while. Grabs coffee icon:coffee[]... +
+Whenever asked for some new installations inside eclipse, press OK.
+
+* Go to `Eclipse->Preferences`, find Tomcat plugin.
+Provide the location of your Apache Tomcat.
+
+=== icon:play[] Running Application
+We are going to run our application using Eclipse's mongrel plugin.
+By default, it looks for _context xml_ files to run the application. For every application there will be a [context file](https://www.mulesoft.com/tcat/tomcat-context).
+Let's say that we are to run `ghumakkad` webapp on `localhost` we need to have context file for `ghumakkad`.
+
+* Create xml file with name `ghumakkad.xml` in location `<tomcat-home>/conf/Catalina/localhost`
+* Below are the sample content of `ghumakkad.xml`. Please change the values of few attributes in this xml as described in next steps.
+
+[source,xml]
+.ghumakkad.xml
+----
+ifdef::setupdir[]
+include::{setupdir}/ghumakkad.xml[]
+endif::[]
+ifndef::setupdir[]
+include::example$ghumakkad.xml[]
+endif::[]
+----
+
+* attributes to be changed are as below
+* `Context->docBase` = location of you target of application. For example in `ghumakkad.xml` you point to the __target__ location of ghumakkad portal. It should be easy to guess from the path in sample.
+* `Environment->value` = we need to provide the location of an environment variable `ghumakkad_config_path` which points to the location of a file named `application.properties`. Preferably, we can create a `application.properties` file in `<tomcat-home>/conf/Catalina/localhost/ghumakkad` for ghumakkad webapp..
+
+CAUTION: Use forward slash `(/)` in paths
+
+
+* After all this is done, we just need press the start tomcat button from eclipse to run the applications.
+* To access individual portal, goto `http://localhost:8080/ghumakkad`. The root context url comes from the context xml files which we created inside tomcat.
+* You're now done with the setup. Enjoy .. icon:beer[]
+
+[[Troubleshooting]]
+=== icon:wrench[] Troubleshooting
+While building the portal, it is possible that few modules fail to build and build process stops.
+For example let's say that build failed due to
+
+* ..compilation issue with a particular module. You just need to fix the compilation issue and continue with the build process as below:
+
+[source,shell]
+mvn clean install -rf :<last-failed-module-name>

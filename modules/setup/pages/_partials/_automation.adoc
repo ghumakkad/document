@@ -1,0 +1,129 @@
+[[automation-with-bdd-testing]]
+== Automation with BDD Testing
+
+=== Ghumakkad Webapp _Smoke Tests Automation using Cucumber, Selenium, Java_
+
+[[smoke-tests]]
+=== Smoke Tests
+
+[[reading]]
+=== Reading
+
+Some useful links to advance your learning:
+
+* Cucumber https://docs.cucumber.io/guides/10-minute-tutorial/[10 Minute
+Tutorial] +
+* Selenium https://www.seleniumhq.org/docs/03_webdriver.jsp[WebDriver] +
+* Very nice https://automationpanda.com/bdd/[blog about BDD Testing >>]
+
+[[setup-your-dev-env]]
+=== Setup your DEV env
+
+Getting up and running for your dev-env is as easy as counting 1 to 4
+:-)
+
+. Make sure you have installed Java __version 11__, https://gradle.org/install/[Gradle] __5.6__ or higher, https://maven.apache.org/index.html[Maven] __version 3.6 or higher__.
+
+. Verify compile
+
+ifndef::antora[]
+.Maven
+[source,xml,indent=0,role="primary"]
+mvn clean compile
+
+.Gradle
+[source,indent=0,role="secondary"]
+gradle clean compileTestJava
+endif::antora[]
+
+ifdef::antora[]
+[tabs]
+====
+Maven::
++
+--
+[source]
+mvn clean compile
+--
+Gradle::
++
+--
+[source]
+gradle clean compileTestJava
+--
+
+====
+endif::antora[]
+
+[start=3]
+. Run all tests and enjoy automation
+
+ifndef::antora[]
+[source,xml,indent=0,role="primary"]
+.Maven
+mvn clean test -DisLocal=false -DisHeadless=false
+
+.Gradle
+[source,indent=0,role="secondary"]
+gradle clean test -DisLocal=false -DisHeadless=false
+
+endif::antora[]
+
+ifdef::antora[]
+[tabs]
+====
+Maven::
++
+[source]
+mvn clean test -DisLocal=false -DisHeadless=false
+
+Gradle::
++
+[source]
+gradle clean test -DisLocal=false -DisHeadless=false
+
+====
+endif::antora[]
+
+to see test results are generated, just open this `automation/build/reports/tests/test/index.html` in your browser.
+
+_optional params:_ 
+
+[start=4]
+. when running inside Jenkins environment, you must append
+`-DGITHUB_TOKEN=...public_access_token...` +
+. if you want to forcefully use custom webdrivers (e.g. specific
+versions), then just append: `-Dwebdriver.gecko.driver=wdm_local/geckodriver -Dwebdriver.chrome.driver=wdm_local/chromedriver`
+
+---
+[start=6]
+. Run inside Intellij IDEA
+
+Import as standard Maven project. +
+Then, set 'Cucumber java' defaults of this project as:
+
+* Main class: `cucumber.api.cli.Main` +
+* Glue: `orh.ghumakkad.webapp.automation.stepdefs` +
+* feature folder path: _point to folder where feature files are_ +
+* VM options: (copy the same ones from mvn example ) +
+
+p.s. Intellij has a bug with Cucumber, here's
+https://github.com/cucumber/cucumber-jvm/issues/1392[a workaround] +
+If you remove
+`--plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm2SMFormatter` +
+from program arguments in the run configuration it will work again. +
+You'll have to do this until InteliJ fixes their plugin. +
+
+[start=7]
+. Run inside Eclipse
+
+Install Eclipse Cucumber Plugin Import as standard Maven project. +
+Then, right click on MakeSearch.feature; run as Cucumber feature. +
+Or,right click on RunCucumberTest; run as JUnit test. +
+
+---
+
+[[together-we-do]]
+=== Together We DO!
+
+Add more cases for Ghumakkad webapp

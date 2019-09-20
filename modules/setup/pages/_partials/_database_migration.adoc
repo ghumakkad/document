@@ -1,0 +1,53 @@
+:PROJECT_HOME: ~/workspace/ghumakkad
+== Flyway DB Plugin Configuration
+
+Please change the DB url as per need in `{PROJECT_HOME}/database/flyway.properties`
+
+== Running existing
+
+[source, shell]
+.Applying all existing migration scripts
+mvn clean flyway:migrate
+
+If a patch fails, please use below command to re-apply after correction
+[source, shell]
+.Repairing schema_history
+mvn clean flyway:repair
+
+== Adding new patch
+
+Flyway adheres to the following naming convention for migration scripts:
+
+`<Prefix><Version>__<Description>.sql`
+
+Where:
+`<Prefix>` – Default prefix is `V`, which may be configured in the above configuration file using the `flyway.sqlMigrationPrefix` property.
+
+`<Version>` – Migration version number. Major and minor versions may be separated by an underscore. Migration version should always start with `1`.
+
+`<Description>` – Textual description of the migration. The description needs to be separated from the version numbers with a double underscore.
+
+Example: `V1_1_0__my_first_migration.sql`
+
+== How Flyway Works
+To keep track of which migrations have already been applied, when and by whom, it adds a special bookkeeping table to your schema.
+This metadata table also tracks migration checksums and whether or not the migrations were successful.
+
+The framework performs the following steps to accommodate evolving database schemas:
+
+1. It checks a database schema to locate its metadata table (SCHEMA_VERSION by default). If the metadata table does not exist, it will create one
+2. It scans an application class-path for available migrations
+3. It compares migrations against the metadata table. If a version number is lower or equal to a version marked as current, it is ignored
+4. It marks any remaining migrations as pending migrations. These are sorted based on version number and are executed in order
+5. As each migration is applied, the metadata table is updated accordingly
+
+== Commands
+
+Flyway supports the following basic commands to manage database migrations.
+
+1. `info`: Prints current status/version of a database schema. It prints which migrations are pending, which migrations have been applied, what is the status of applied migrations and when they were applied.
+2. `migrate`: Migrates a database schema to the current version. It scans the classpath for available migrations and applies pending migrations.
+3. `baseline`: Baselines an existing database, excluding all migrations, including baselineVersion. Baseline helps to start with Flyway in an existing database. Newer migrations can then be applied normally.
+4. `validate`: Validates current database schema against available migrations.
+5. `repair`: Repairs metadata table.
+6. `clean`: Drops all objects in a configured schema. All database objects are dropped. Of course, you should never use clean on any production database.

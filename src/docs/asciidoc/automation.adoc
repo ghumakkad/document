@@ -1,0 +1,15 @@
+= Automation
+Prashant C Chaturvedi <prashant.chaturvedi@hcentive.com>
+v{project-version}
+
+:description: 'Automation Setup and guidelines of writing new automation'
+:toc:
+:sectanchors:
+:includesdir: ./../../../modules/setup/pages/_partials
+:icons: font
+
+include::./../../theme/_copyright.adoc[]
+
+toc::[]
+
+include::{includesdir}/_automation.adoc[]

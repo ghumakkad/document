@@ -1,0 +1,6 @@
+= Project Structure
+Prashant C Chaturvedi <prashant.chaturvedi@hcentive.com>
+
+:icons: font
+
+include::partial$_project_structure.adoc[]

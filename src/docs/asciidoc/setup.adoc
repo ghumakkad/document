@@ -1,0 +1,11 @@
+= Dev Environment Setup
+Prashant C Chaturvedi <prashant.chaturvedi@hcentive.com>
+v{project-version}
+
+:toc:
+:setupdir: ./../../../setup/examples
+:sectanchors:
+:includesdir: ./../../../modules/setup/pages/_partials
+:sourcedir: ./../../../../..
+
+include::{includesdir}/_setup.adoc[]

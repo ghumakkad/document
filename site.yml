@@ -1,0 +1,54 @@
+site:
+  title: Docs @ Ghumakkad
+  # the 404 page and sitemap files only get generated when the url property is set
+  url: http://localhost:5000/docs
+  start_page: document::index.adoc
+content:
+  sources:
+  - url: .
+    branches: master
+ui:
+  bundle:
+    url: ./docs-ui.zip
+    snapshot: true
+  supplemental_files:
+    - path: robots.txt
+      contents: |
+        User-agent: *
+    - path: ui.yml
+      contents: |
+        static_files: [robots.txt]
+asciidoc:
+  extensions:
+    - asciidoctor-plantuml
+    - ./lib/json-config-ui-block-macro.js
+    - ./lib/inline-man-macro.js
+    - ./lib/multirow-table-head-tree-processor.js
+    - ./lib/swagger-ui-block-macro.js
+    - ./lib/tabs-block.js
+  attributes:
+    experimental: ''
+    example-caption: ~
+    hide-uri-scheme: ''
+    idprefix: '@'
+    idseparator: '-@'
+    tabs: tabs
+    source-language: asciidoc
+    table-caption: ~
+    url-project: https://ghumakkad.org
+    product-name: 'Ghumakkad'
+    toc: ~
+    linkattrs: ''
+    icons: 'font'
+    xrefstyle: short
+    plantuml-server-url: 'http://www.plantuml.com/plantuml'
+    plantuml-fetch-diagram: true
+    antora: true
+runtime:
+  cache_dir: ./.cache/antora
+  fetch: true
+#output:
+#  clean: true
+#  dir: ./public
+##  destinations:
+##  - provider: archive

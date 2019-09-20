@@ -1,0 +1,5 @@
+* Project Structure & Setup
+** xref:index.adoc[Project Structure]
+** xref:setup.adoc[Environment Setup]
+** xref:documentation.adoc[Documentation]
+** xref:automation.adoc[Automation]

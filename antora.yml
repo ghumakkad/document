@@ -1,0 +1,9 @@
+name: document
+title: Ghumakkad
+version: master #versionless as of now
+start_page: ROOT:index.adoc
+nav:
+- modules/setup/nav.adoc
+- modules/design/nav.adoc
+- modules/components/nav.adoc
+- modules/ROOT/nav.adoc
