@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@antora/cli": "^2.0.0",
-    "@antora/site-generator-default": "^2.0.0",
+    "@antora/cli": "^2.3.4",
+    "@antora/site-generator-default": "^2.3.4",
     "asciidoctor-plantuml": "^1.1.13",
     "asciidoctor.js": "^1.5.9",
-    "serve": "^11.1.0"
+    "serve": "^11.3.2"
   }
 }
